@@ -1,37 +1,37 @@
-document.addEventListener('DOMContentLoaded', function () {
-    function showTab(tabName) {
-        var i, tabContent;
-        tabContent = document.querySelectorAll('.tab-content');
-        tabContent.forEach(function (content) {
-            content.classList.remove('active');
-        });
-        document.querySelector('.tab-content.' + tabName).classList.add('active');
+
+### `script.js`
+```javascript
+// JavaScript for Navigation Tabs
+function showTab(tabName) {
+    // Hide all tabs
+    const tabs = document.querySelectorAll('.tab-content');
+    tabs.forEach(tab => tab.classList.remove('active'));
+
+    // Show the selected tab
+    const selectedTab = document.querySelector(`.${tabName}`);
+    if (selectedTab) {
+        selectedTab.classList.add('active');
     }
+}
 
-    function changeSlide(n) {
-        var slides = document.querySelectorAll('.slider .slides img');
-        var currentSlide = Array.from(slides).findIndex(slide => slide.style.display === 'block');
-        slides[currentSlide].style.display = 'none';
-        var newSlide = (currentSlide + n + slides.length) % slides.length;
-        slides[newSlide].style.display = 'block';
-    }
+// Initialize Swiper
+const swiper = new Swiper('.swiper-container', {
+    loop: true,
+    pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+    },
+    navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+    },
+    autoplay: {
+        delay: 3000,
+        disableOnInteraction: false,
+    },
+});
 
-    document.querySelectorAll('nav a').forEach(function (link) {
-        link.addEventListener('click', function (e) {
-            e.preventDefault();
-            var tabName = e.target.getAttribute('onclick').split("'")[1];
-            showTab(tabName);
-        });
-    });
-
-    var sliderImages = document.querySelectorAll('.slider .slides img');
-    sliderImages[0].style.display = 'block'; // Show the first image initially
-
-    document.querySelector('.prev').addEventListener('click', function () {
-        changeSlide(-1);
-    });
-
-    document.querySelector('.next').addEventListener('click', function () {
-        changeSlide(1);
-    });
+// Default to the home tab
+document.addEventListener('DOMContentLoaded', () => {
+    showTab('home');
 });
